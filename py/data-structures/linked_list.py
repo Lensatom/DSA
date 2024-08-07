@@ -1,5 +1,4 @@
-"""
-/******************************************************
+"""/******************************************************
 
 Implementation of a link-list in python
 Author: Atayero Ayomide Samuel
@@ -7,9 +6,7 @@ Github: https://github.com/lensatom
 LinkedIn: 
 portfolio: 
 
-******************************************************/
-"""
-
+******************************************************/"""
 
 class Node:
   def __init__(self, data):
@@ -26,178 +23,209 @@ class CreateLinkedList:
     self.tail = 0
     self.listSize = 1
   
-  """
-  /******************************
-
-  - returns size of linkedlist
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function returns the size of the linked list
+  *
+  * It accesses the listSize attr and returns the size
+  * of the linkedlist in constant time
+  *
+  * @return the size of the linked list
+  *
+  **/"""
   def size(self):
     return self.listSize
   
-  """
-  /******************************
-
-  - returns true if linkedlist is empty, otherwise, false
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function checks if the linked list is empty
+  *
+  * It checks if the head node is pointing to any address
+  * and returns either true or false
+  *
+  * @return: True if the list is empty, otherwise, false
+  *
+  **/"""
   def empty(self):
-    # Check if there is an head address
     return self.head == None
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function gets the data stored at a particular
+  * index in the linked list
+  *
+  * It loops over next addresses till the value of the
+  * loop counter is equal to the value of the index given
+  *
+  * @param index: The index be be accessed in the linked list
+  * @return: The data in the index given
+  *
+  **/"""
   def value_at(self, index):
     if (index >= self.listSize):
       raise Exception()
-    currNode = self.data[self.head]
+    curr_node_addr = self.data[self.head]
     i = 0
     while (i < index):
-      currNode = self.data[currNode["next"]]
+      curr_node_addr = self.data[curr_node_addr["next"]]
       i += 1
-    return currNode["data"]
+    return curr_node_addr["data"]
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function adds data to the first index
+  * in the linked list.
+  *
+  * It creates a new node and arrors its next to
+  * the current head node of the linked list the
+  * makes the new node the new head and increases the
+  * size of the list by 1
+  *
+  * @param data: The new data for the node to be
+  * added to the front.
+  * @return 1 to indicate success
+  *
+  **/"""
   def push_front(self, data):
-    # create new node
     new_node = Node(data).get()
-    # arrow new node to head address
     new_node["next"] = self.head
-    # insert new node in new address
     self.data[self.listSize] = new_node
-    # update head address to new node address
     self.head = self.listSize
-    # increase list size
     self.listSize += 1
-    # return success
     return 1
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function removes a node from the front of
+  * the linked list
+  *
+  * It reassigns the address of the linked list head
+  * to the next address of the currnt linked list head
+  * node and reduces the size of the list by 1
+  *
+  * @return 1 to indicate success
+  *
+  **/"""
   def pop_front(self):
-    # check if linkedlist is empty
     if (self.empty()):
-      # return failure
-      return 0
-    # store current head address temporarily
+      raise Exception()
     temp_head = self.head
-    # assign new head address
     self.head = self.data[self.head]["next"]
-    # delete data in previous head address
     del self.data[temp_head]
-    # reduce linkedlist size by 1
     self.listSize -= 1
-    # return success
     return 1
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function adds data to the end of the linked list
+  *
+  * It creates a new node and assigns it to a new address.
+  * It then goes to the node in the tail address and arrows
+  * its next to the new node address.
+  * Finally, it updates the tail address to the address of
+  * the new node and increases the size of the list by 1
+  *
+  * @param data: The data to be used for the new node
+  * @return: 1 to indicate success
+  *
+  **/"""
   def push_back(self, data):
-    # create new node with data
     new_node = Node(data).get()
-    # arrow current linkedlist tail node "next" to new address
     self.data[self.tail]["next"] = self.listSize
-    # store new node in the new address
     self.data[self.listSize] = new_node
-    # assign new tail address
     self.tail = self.listSize
-    # increase linkedlist size by 1
     self.listSize += 1
-    # return success
     return 1
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * The fuction removes a node from the end of the
+  * linked list
+  *
+  * It loops through the list till its at the index
+  * of th second to the last node. It sets its next to
+  * none and deletes the node in the next address.
+  * Finally, it updates the tail address to the address
+  * of the second to the last node and reduces the size of
+  * the list by 1
+  *
+  * @return the data in the removed node
+  *
+  **/"""
   def pop_back(self):
     if (self.empty()):
-      return 0
+      raise Exception()
     if (self.listSize == 1):
       self.data = {}
       return 1
-    currNode = self.head
+    
+    curr_node_addr = self.head
     i = 0
     while (i < self.listSize - 2):
-      self.tail = self.data[currNode]["next"]
-      currNode = self.data[currNode]["next"]
+      self.tail = self.data[curr_node_addr]["next"]
+      curr_node_addr = self.data[curr_node_addr]["next"]
       i += 1
-    popped = self.data[self.data[currNode]["next"]]
-    del self.data[self.data[currNode]["next"]]
-    self.data[currNode]["next"] = None
+
+    popped = self.data[self.data[curr_node_addr]["next"]]
+    del self.data[self.data[curr_node_addr]["next"]]
+    self.data[curr_node_addr]["next"] = None
     self.listSize -= 1
     return popped["data"]
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function gets the data in the node at the front
+  * of the linked list
+  *
+  * It goes to the node in the head address and returns the
+  * the data in the node
+  *
+  * @return the data in the front of the linked list
+  *
+  **/"""
   def front(self):
-    # check if linkedlist is empty
     if (self.empty()):
-      # return failure
-      return 0
-    # return data in head address
+      raise Exception()
     return self.data[self.head]["data"]
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function gets the data in the node at the end
+  * of the linked list
+  *
+  * It goes to the node in the tail address and returns the
+  * the data in the node
+  *
+  * @return the data at the end of the linked list
+  *
+  **/"""
   def back(self):
-    # check if linkedlist is empty
     if (self.empty()):
-      # return failure
-      return 0
-    # return data in tail address
+      raise Exception()
     return self.data[self.tail]["data"]
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function inserts data in a given index
+  * in the linked list
+  *
+  * It creates a new node and assigns it an address
+  * It loops through the linked list till its at the index
+  * before the given index and stores its current next adress.
+  * It then changes its next adress to the address of the new node and
+  * gives the new node the adrress of the stored next address of the
+  * previous node
+  *
+  * @param index: The index to add the new data node
+  * @param value: The data for the new node
+  * @return 1 to indicate success
+  *
+  **/"""
   def insert(self, index, value):
     new_node = Node(value).get()
+    self.data[self.listSize] = new_node
     if (index >= self.listSize):
-      self.data[self.listSize] = new_node
-      self.data[self.tail]["next"] = self.listSize
-      self.listSize += 1
-      return 1
+      return self.push_back(value)
     
     curr_node_addr = self.head
     i = 0
@@ -207,18 +235,24 @@ class CreateLinkedList:
 
     prev_node_addr = self.data[curr_node_addr]["next"]
     self.data[curr_node_addr]["next"] = self.listSize
-    self.data[self.listSize] = new_node
     self.data[self.listSize]["next"] = prev_node_addr
     self.listSize += 1
     return 1
   
-  """
-  /******************************
-
-  - 
-
-  ******************************/
-  """
+  """/**
+  *
+  * This function removes data from a given index in
+  * the linked list
+  *
+  * loops through the list till its at the node before the
+  * given index then changes its next to the next in the next node
+  * then deletes the node in the given index and reduces thwe size
+  * of the linked list by 1
+  *
+  * @param index: The index to be removed
+  * @return the data at the given index
+  *
+  **/"""
   def erase(self, index):
     if (index >= self.listSize):
       raise Exception()
